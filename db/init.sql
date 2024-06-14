@@ -66,3 +66,17 @@ INSERT INTO users(username, password) VALUES
 INSERT INTO users(username, password, is_admin) VALUES ('lflores7', '6702', true), ('oflores', '0000', true);
 
 GRANT ALL ON TABLE public.users TO storeadmin;
+
+CREATE PROCEDURE create_client(
+  iname TEXT, 
+  iphone TEXT, 
+  iemail TEXT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  INSERT INTO clients(name, phone, email) VALUES (iname, iphone, iemail);
+END;
+$$;
+
+GRANT ALL ON PROCEDURE create_client TO storeadmin;

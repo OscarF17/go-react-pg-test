@@ -19,3 +19,17 @@ func GetClients(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, clients)
 }
+
+func CreateClient(c *gin.Context) {
+	var newClient models.NewClient
+	err := c.BindJSON(&newClient)
+	if err != nil {
+		log.Fatal(err)
+	}
+	result := config.DB.Raw("call create_client($1, $2, $3)", newClient.Name, newClient.Phone, newClient.Email)
+	if result.Error != nil {
+		log.Fatal(result.Error)
+	}
+	jsonData := []byte(`{"msg":"client created"}`)
+	c.JSON(http.StatusCreated, jsonData)
+}
